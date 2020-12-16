@@ -10,9 +10,17 @@ struct Password {
 }
 
 fn main() {
-    let input = fs::read_to_string(FILENAME).expect("read error");
-    println!("part one: {}", valid_passwords(&input, min_max_checker));
-    println!("part two: {}", valid_passwords(&input, pos_checker));
+    let data = fs::read_to_string(FILENAME).expect("read error");
+    println!("part one: {}", part_one(&data));
+    println!("part two: {}", part_two(&data));
+}
+
+fn part_one(data: &str) -> usize {
+    valid_passwords(&data, min_max_checker)
+}
+
+fn part_two(data: &str) -> usize {
+    valid_passwords(&data, pos_checker)
 }
 
 fn valid_passwords(input: &str, f: fn(Password) -> bool) -> usize {
@@ -76,45 +84,13 @@ fn parse_password(s: &str) -> Password {
 
 mod tests {
     #[test]
-    fn test_min_max_checker() {
-        assert_eq!(
-            true,
-            super::min_max_checker(super::Password {
-                min_constraint: 1,
-                max_constraint: 3,
-                char_constraint: 'a',
-                s: "abcde".to_string()
-            })
-        );
+    fn test_part_one() {
+        let data = std::fs::read_to_string(super::FILENAME).expect("could not read file");
+        assert_eq!(500, super::part_one(&data));
     }
     #[test]
-    fn test_pos_checker() {
-        assert_eq!(
-            true,
-            super::pos_checker(super::Password {
-                min_constraint: 1,
-                max_constraint: 3,
-                char_constraint: 'a',
-                s: "abcde".to_string()
-            })
-        );
-        assert_eq!(
-            false,
-            super::pos_checker(super::Password {
-                min_constraint: 1,
-                max_constraint: 2,
-                char_constraint: 'b',
-                s: "cdefg".to_string()
-            })
-        );
-        assert_eq!(
-            false,
-            super::pos_checker(super::Password {
-                min_constraint: 2,
-                max_constraint: 9,
-                char_constraint: 'c',
-                s: "ccccccccc".to_string()
-            })
-        );
+    fn test_part_two() {
+        let data = std::fs::read_to_string(super::FILENAME).expect("could not read file");
+        assert_eq!(313, super::part_two(&data));
     }
 }
