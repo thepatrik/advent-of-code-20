@@ -54,15 +54,14 @@ fn rec_combat(mut decks: (Deck, Deck)) -> (Deck, Deck) {
     let mut cache: HashSet<(Deck, Deck)> = HashSet::new();
 
     while decks.0.len() > 0 && decks.1.len() > 0 {
+        if !cache.insert(decks.clone()) {
+            return (decks.0, vec![]);
+        }
+
         let card_1 = decks.0.remove(0);
         let card_2 = decks.1.remove(0);
 
-        if cache.contains(&decks) {
-            return (decks.0, vec![]);
-        }
-        cache.insert(decks.clone());
-
-        let win_func = |decks: (Deck, Deck)| {
+        let is_winner = |decks: (Deck, Deck)| {
             if decks.0.len() >= card_1 && decks.1.len() >= card_2 {
                 let sub_decks = (
                     decks.0.clone().into_iter().take(card_1).collect(),
@@ -73,7 +72,7 @@ fn rec_combat(mut decks: (Deck, Deck)) -> (Deck, Deck) {
             card_1 > card_2
         };
 
-        if win_func(decks.clone()) {
+        if is_winner(decks.clone()) {
             decks.0.insert(decks.0.len(), card_1);
             decks.0.insert(decks.0.len(), card_2);
         } else {
