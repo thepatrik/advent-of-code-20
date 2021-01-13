@@ -21,12 +21,7 @@ fn main() {
 }
 
 fn part_one(data: &str) -> usize {
-    let tiles = flip_tiles(&data);
-
-    tiles
-        .iter()
-        .map(|(_, is_black)| if *is_black { 1 } else { 0 })
-        .sum::<usize>()
+    flip_tiles(&data).len()
 }
 
 fn part_two(data: &str) -> usize {
@@ -43,24 +38,22 @@ fn part_two(data: &str) -> usize {
         mem
     }
 
-    let mut count = 0;
     for _ in 0..100 {
         tiles = flip(&tiles);
-        count = tiles
-            .iter()
-            .map(|(_, is_black)| if *is_black { 1 } else { 0 })
-            .sum();
     }
-    count
+    tiles.len()
 }
 
 fn is_black(coord: Coord, is_black: bool, mem: &HashMap<Coord, bool>) -> bool {
-    let mut black_tile_neighbours = 0;
-    for d in DIRECTIONS.iter() {
-        if *mem.get(&(coord.0 + d.0, coord.1 + d.1)).unwrap_or(&false) {
-            black_tile_neighbours += 1;
-        }
-    }
+    let black_tile_neighbours: usize = DIRECTIONS
+        .iter()
+        .map(|d| {
+            if *mem.get(&(coord.0 + d.0, coord.1 + d.1)).unwrap_or(&false) {
+                return 1;
+            }
+            0
+        })
+        .sum();
     match is_black {
         true => return black_tile_neighbours > 0 && black_tile_neighbours <= 2,
         false => return black_tile_neighbours == 2,
