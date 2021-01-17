@@ -76,6 +76,10 @@
 22: 
 	cargo test --manifest-path=day22/Cargo.toml
 
+.PHONY: 23
+23: 
+	cargo test --manifest-path=day23/Cargo.toml
+
 .PHONY: 24
 24: 
 	cargo test --manifest-path=day24/Cargo.toml
@@ -85,4 +89,4 @@
 	cargo test --manifest-path=day25/Cargo.toml
 
 .PHONY: all
-all: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 18 20 22 24 25
+all: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 18 20 22 23 24 25
