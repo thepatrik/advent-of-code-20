@@ -28,7 +28,7 @@ fn part_two(data: &str) -> usize {
     let mut tiles = flip_tiles(&data);
 
     fn flip(tiles: &HashMap<Coord, bool>) -> HashMap<Coord, bool> {
-        let mut mem = HashMap::new();
+        let mut mem = HashMap::with_capacity(tiles.len());
         for coord in find_neighbours(&tiles) {
             let b = tiles.get(&coord).unwrap_or(&false);
             if is_black(coord, *b, &tiles) {
@@ -61,7 +61,7 @@ fn is_black(coord: Coord, is_black: bool, mem: &HashMap<Coord, bool>) -> bool {
 }
 
 fn find_neighbours(tiles: &HashMap<Coord, bool>) -> HashSet<Coord> {
-    let mut neighbours = HashSet::new();
+    let mut neighbours = HashSet::with_capacity(tiles.len() * DIRECTIONS.len());
     for (coord, _) in tiles.clone() {
         neighbours.insert(coord);
         for d in DIRECTIONS.iter() {
